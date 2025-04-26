@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sifatecommerce.entity.Categoria;
 import br.com.sifatecommerce.repository.CategoriaRepository;
@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/sifatecommerce/categoria")
 public class CategoriaController {
@@ -67,10 +67,10 @@ public class CategoriaController {
 	@Operation(summary="Paginação de categoria")
 	@GetMapping
 	public Page<Categoria>list(
-			@RequestParam(defaultValue = "0")Integer page, //primeira página
+			@RequestParam(defaultValue = "0")Integer page,
 			@RequestParam(defaultValue = "10") Integer pageSize
 			){
-		Sort sort = Sort.by(Sort.Direction.ASC, "name");
+		Sort sort = Sort.by(Sort.Direction.ASC, "nome");
 		PageRequest pageRequest = PageRequest.of(page, pageSize, sort);
 		return categoriaRepository.findAll(pageRequest);
 	}
