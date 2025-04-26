@@ -12,7 +12,7 @@ Para:
 ```bash
 spring.profiles.active=dev
 ```
-3. Agora para a execução vá no arquivo "application-dev.properties" da linha de código: 
+3. Agora para a execução vá no arquivo "application-dev.properties" na linha de código: 
 ```bash
 spring.datasource.url=jdbc:h2:mem:test
 ```
