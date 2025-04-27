@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import br.com.sifatecommerce.entity.Categoria;
 import br.com.sifatecommerce.repository.CategoriaRepository;
 import br.com.sifatecommerce.service.CategoriaService;
@@ -33,7 +34,10 @@ public class CategoriaController {
 	private final CategoriaRepository categoriaRepository;
 
 
-	@Operation(summary = "inserir categoria")
+	@Operation(
+		    summary = "Inserir uma nova categoria",
+		    description = "Cria uma nova categoria no sistema. É necessário informar o nome da categoria."
+		)
 	@PostMapping(value = "insert")
 	public ResponseEntity<Categoria> salvarCategoria(@RequestBody @Valid Categoria categoria) {
 		Categoria salvarCategoria = categoriaService.salvarCategoria(categoria);
@@ -41,21 +45,31 @@ public class CategoriaController {
 
 	}
 
-	@Operation(summary = "Procura categoria por id")
+	@Operation(
+		    summary = "Buscar categoria por ID",
+		    description = "Recupera as informações de uma categoria específica através do seu ID."
+		)
+
 	@GetMapping("{id}")
 	public ResponseEntity<Categoria> procurarcategoriaPorId(@PathVariable Long id) {
 		Optional<Categoria> optionalCategoria = categoriaService.procurarCategoriaporId(id);
 		return optionalCategoria.map(ResponseEntity::ok).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	} 
 	
-	@Operation(summary = "Deleta Categoria")
+	@Operation(
+		    summary = "Deletar categoria",
+		    description = "Exclui uma categoria do sistema com base no ID informado. Só é permitido excluir categorias que não possuam produtos vinculados."
+		)
 	@DeleteMapping("{id}")
 	public ResponseEntity<Categoria> deletePerson(@PathVariable Long id){
 		categoriaService.deletarCategoria(id);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@Operation(summary = "Atualiza categoria por id")
+	@Operation(
+		    summary = "Atualizar categoria",
+		    description = "Atualiza os dados de uma categoria existente com base no seu ID. Os dados devem ser enviados no corpo da requisição."
+		)
 	@PutMapping("{id}")
 	public ResponseEntity<Categoria> updatePerson(@PathVariable Long id, @RequestBody @Valid Categoria categoriaAtualizar) {
 	    Categoria categoriaAtualizada = categoriaService.atualizarCategoria(id, categoriaAtualizar); 
@@ -64,7 +78,10 @@ public class CategoriaController {
 
 	
 	
-	@Operation(summary="Paginação de categoria")
+	@Operation(
+		    summary = "Listar categorias com paginação",
+		    description = "Lista todas as categorias de forma paginada e ordenada por nome."
+		)
 	@GetMapping
 	public Page<Categoria>list(
 			@RequestParam(defaultValue = "0")Integer page,
@@ -75,5 +92,14 @@ public class CategoriaController {
 		return categoriaRepository.findAll(pageRequest);
 	}
 
+	@Operation(summary="Procurar por categoria")
+	@GetMapping("/procurar")
+	public ResponseEntity<Page<Categoria>> searchByAttributes(
+	        @RequestParam String query,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int pageSize) {
+	    Page<Categoria> resultado = categoriaService.procurarPorAtributos(query, page, pageSize);
+	    return ResponseEntity.ok(resultado);
+	}
 
 }

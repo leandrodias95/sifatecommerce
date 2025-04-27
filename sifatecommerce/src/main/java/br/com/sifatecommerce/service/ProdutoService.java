@@ -1,6 +1,9 @@
 package br.com.sifatecommerce.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.sifatecommerce.dto.ProdutoDTO;
@@ -54,6 +57,29 @@ public class ProdutoService {
 	    return convertToDTO(produto);
 	}
 		
+	
+	
+	public Page<ProdutoDTO> listarProdutos(Long categoriaId, int page, int pageSize) {
+	    PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC, "nome"));
+
+	    Page<Produto> produtos;
+
+	    if (categoriaId != null) {
+	        produtos = produtoRepository.findByCategoriaIdWithPage(categoriaId, pageRequest);
+	    } else {
+	        produtos = produtoRepository.findAll(pageRequest);
+	    }
+
+	    return produtos.map(this::convertToDTO);
+	}
+
+	
+	
+	
+	public Page<Produto> procurarPorAtributos(String query, int page, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        return produtoRepository.findByNomeContainingIgnoreCase(query, pageRequest);
+    }
 
 		public ProdutoDTO convertToDTO(Produto produto) {
 			ProdutoDTO dto = new ProdutoDTO();
@@ -73,5 +99,5 @@ public class ProdutoService {
 		    return produto;
 		}	
 	
-	
+		
 }

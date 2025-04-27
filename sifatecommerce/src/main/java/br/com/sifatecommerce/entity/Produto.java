@@ -40,7 +40,7 @@ public class Produto implements Serializable{
 	@NotNull(message="{campo.produto.preco.requer}")
 	private BigDecimal preco;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="categoria_id", foreignKey= @ForeignKey (name= "fk_categoria"),  nullable = false)
 	private Categoria categoria;
 
