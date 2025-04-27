@@ -71,7 +71,7 @@ http://localhost:8080/h2-console
 6. Cole o valor copiado no campo **JDBC URL** do console H2.
 7. Clique em **Connect** para acessar o banco de dados.
 
-**Observação:** Para a correta execução dos testes de integração, é necessário que exista previamente um registro de Categoria com o ID 1 já gravado no banco de dados. Você pode cadastrar manualmente uma categoria no banco acessando o console H2 ou Swagger.
+**Observação:** Para a correta execução dos testes de integração, é necessário que exista previamente um registro de Categoria com o ID 1 já gravado no banco de dados. Você pode cadastrar manualmente uma categoria no banco de dados  acessando o seu banco de dados fisíco ou Swagger, lembre-se de mudar o profile do application properties e altera-lo hml com as configurações do seu banco.
 
 ---
 
