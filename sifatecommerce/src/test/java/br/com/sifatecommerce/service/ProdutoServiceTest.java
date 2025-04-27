@@ -73,6 +73,6 @@ class ProdutoServiceTest {
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("Produto Teste", resultado.getNome());
-        assertEquals("1", resultado.getCategoriaId());
+        assertEquals(1L, resultado.getCategoriaId());
     }
 }
